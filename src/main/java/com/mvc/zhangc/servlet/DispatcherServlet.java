@@ -156,13 +156,9 @@ public class DispatcherServlet extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
          String uri =request.getRequestURI();//获取ip+端口后面全路径
          String context = request.getContextPath();
-         String path;
-         //判断是否有别名
-         if(context.isEmpty()){
-             path = uri;
-         }else{
-             path = uri.replace(context,"");//
-         }
+         //判断项目是否有别名
+         String path=context.isEmpty()?uri:uri.replace(context,"");
+
          Method method = (Method) urlHandlers.get(path);
          String key ="/"+path.split(Pattern.quote("/"))[1];
          ZhangcController instance =(ZhangcController)ioc.get(key);
